@@ -1,7 +1,12 @@
 package de.boese.soundbot.events
 
+import de.boese.soundbot.sound.dao.implementation.SoundObjectDaoImplementation
+import de.boese.soundbot.utils.MessageHelper
+
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
+import net.dv8tion.jda.api.utils.FileProxy
+import java.io.File
 
 class MessageListener : ListenerAdapter() {
     override fun onMessageReceived(event: MessageReceivedEvent) {
@@ -9,13 +14,12 @@ class MessageListener : ListenerAdapter() {
         val args = message.split(" ").drop(1)
 
         if (message.startsWith("!soundboard") && !args.isEmpty()) {
-            val returnedMessage = when (args[0]) {
-                "upload" -> "upload"
-                "play" -> "not implemented"
-                "remove" -> "not implemented"
-                else -> "fuck u"
+            when (args[0]) {
+                "upload" -> SoundObjectDaoImplementation.addSound(event.message.attachments, args[1])
+                "play" -> SoundObjectDaoImplementation.selectSound(args[1])
+                "remove" -> SoundObjectDaoImplementation.removeSound(args[1])
+                else -> MessageHelper.sendMessage(event, "Invalid Command")
             }
-            event.channel.sendMessage(returnedMessage).queue()
         }
     }
 }
