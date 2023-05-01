@@ -8,4 +8,5 @@ public interface SoundObjectDao {
     fun removeSound(name: String)
     fun selectSound(name: String): SoundObject
     fun findByUser(username: String): List<SoundObject>
+    fun getAllSounds(): List<SoundObject>
 }

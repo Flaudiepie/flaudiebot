@@ -5,21 +5,23 @@ import de.boese.soundbot.utils.MessageHelper
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
-import net.dv8tion.jda.api.utils.FileProxy
-import java.io.File
 
-class MessageListener : ListenerAdapter() {
+class MessageListeningEvent : ListenerAdapter() {
     override fun onMessageReceived(event: MessageReceivedEvent) {
-        val message = event.message.contentRaw
-        val args = message.split(" ").drop(1)
+        try {
+            val message = event.message.contentRaw
+            val args = message.split(" ").drop(1)
 
-        if (message.startsWith("!soundboard") && !args.isEmpty()) {
-            when (args[0]) {
-                "upload" -> SoundObjectDaoImplementation.addSound(event.message.attachments, args[1])
-                "play" -> SoundObjectDaoImplementation.selectSound(args[1])
-                "remove" -> SoundObjectDaoImplementation.removeSound(args[1])
-                else -> MessageHelper.sendMessage(event, "Invalid Command")
+            if (message.startsWith("!soundboard") && !args.isEmpty()) {
+                when (args[0]) {
+                    "upload" -> SoundObjectDaoImplementation.addSound(event.message.attachments, args[1])
+                    "play" -> SoundObjectDaoImplementation.selectSound(args[1])
+                    "remove" -> SoundObjectDaoImplementation.removeSound(args[1])
+                    else -> MessageHelper.sendMessage(event, "Invalid Command")
+                }
             }
+        } catch (err: Exception) {
+            MessageHelper.sendMessage(event, err.message!!)
         }
     }
 }
