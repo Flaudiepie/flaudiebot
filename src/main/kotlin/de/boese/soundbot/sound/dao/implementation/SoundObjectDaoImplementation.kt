@@ -7,10 +7,11 @@ import java.io.File
 import java.io.InvalidObjectException
 
 object SoundObjectDaoImplementation : SoundObjectDao {
+    const val path = "/opt/media"
+
     override fun addSound(attachments: List<Attachment>, name: String) {
         val mediaFile = attachments[0]
         if (mediaFile.fileExtension == "mp3" || mediaFile.fileExtension == "wav") {
-            val path = "/opt/media"
             mediaFile.proxy.downloadToFile(File("$path$name.${mediaFile.fileExtension}"))
         } else {
             throw InvalidObjectException("File is not mp3 or wav!")
@@ -21,7 +22,7 @@ object SoundObjectDaoImplementation : SoundObjectDao {
         TODO("Not yet implemented")
     }
 
-    override fun selectSound(name: String): SoundObject {
+    override fun getSound(name: String): SoundObject {
         TODO("Not yet implemented")
     }
 
@@ -30,6 +31,7 @@ object SoundObjectDaoImplementation : SoundObjectDao {
     }
 
     override fun getAllSounds(): List<SoundObject> {
-        TODO("Not yet implemented")
+        val files = File(path).listFiles()
+        return files!!.map { SoundObject(it.name) }
     }
 }

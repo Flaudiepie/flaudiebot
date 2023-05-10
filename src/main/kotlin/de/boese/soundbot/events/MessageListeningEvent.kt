@@ -15,13 +15,14 @@ class MessageListeningEvent : ListenerAdapter() {
             if (message.startsWith("!soundboard") && !args.isEmpty()) {
                 when (args[0]) {
                     "upload" -> SoundObjectDaoImplementation.addSound(event.message.attachments, args[1])
-                    "play" -> SoundObjectDaoImplementation.selectSound(args[1])
+                    "play" -> SoundObjectDaoImplementation.getSound(args[1])
                     "remove" -> SoundObjectDaoImplementation.removeSound(args[1])
-                    else -> MessageHelper.sendMessage(event, "Invalid Command")
+                    "list" -> MessageHelper.sendSingleMessage(event, SoundObjectDaoImplementation.getAllSounds().map{it.name}.toString())
+                    else -> MessageHelper.sendSingleMessage(event, "Invalid Command")
                 }
             }
         } catch (err: Exception) {
-            MessageHelper.sendMessage(event, err.message!!)
+            MessageHelper.sendSingleMessage(event, err.message!!)
         }
     }
 }
