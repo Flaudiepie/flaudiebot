@@ -17,7 +17,10 @@ class MessageListeningEvent : ListenerAdapter() {
                     "upload" -> SoundObjectDaoImplementation.addSound(event.message.attachments, args[1])
                     "play" -> SoundObjectDaoImplementation.getSound(args[1])
                     "remove" -> SoundObjectDaoImplementation.removeSound(args[1])
-                    "list" -> MessageHelper.sendSingleMessage(event, SoundObjectDaoImplementation.getAllSounds().map{it.name}.toString())
+                    "list" -> MessageHelper.sendMutliLineMessage(
+                        event,
+                        SoundObjectDaoImplementation.getAllSounds().map { it.name })
+
                     else -> MessageHelper.sendSingleMessage(event, "Invalid Command")
                 }
             }

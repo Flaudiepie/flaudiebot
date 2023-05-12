@@ -7,7 +7,7 @@ import java.io.File
 import java.io.InvalidObjectException
 
 object SoundObjectDaoImplementation : SoundObjectDao {
-    const val path = "/opt/media"
+    const val path = "/opt/media/"
 
     override fun addSound(attachments: List<Attachment>, name: String) {
         val mediaFile = attachments[0]
@@ -32,6 +32,6 @@ object SoundObjectDaoImplementation : SoundObjectDao {
 
     override fun getAllSounds(): List<SoundObject> {
         val files = File(path).listFiles()
-        return files!!.map { SoundObject(it.name) }
+        return files!!.map { SoundObject(it.nameWithoutExtension) }
     }
 }

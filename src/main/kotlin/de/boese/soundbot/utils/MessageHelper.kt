@@ -7,4 +7,7 @@ object MessageHelper {
         event.channel.sendMessage(content).queue()
     }
 
+    fun sendMutliLineMessage(event: MessageReceivedEvent, content: List<String>){
+        event.channel.sendMessage(content.joinToString(separator = "\n")).queue()
+    }
 }

@@ -12,7 +12,7 @@ repositories {
 }
 
 application{
-    mainClass.set("de.boese.soundbot.SoundbotApplication")
+    mainClass.set("de.boese.soundbot.SoundbotApplicationKt")
 }
 
 dependencies {
